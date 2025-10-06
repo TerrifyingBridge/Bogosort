@@ -1,9 +1,4 @@
 import random
-from numpy.ma.extras import average
-
-list_size: int = 4
-sim_length: int = 10000
-arr: list[int] = []
 
 def is_sorted(my_list: list[int]) -> bool:
     for i in range(1, len(my_list)):
@@ -19,9 +14,13 @@ def shuffle(my_list: list[int]):
         my_list[i] = my_list[random_int]
         my_list[random_int] = temp_val
 
-def bogosort(my_list: list[int]) -> int:
-    counter: int = 0
+def bogosort(my_list: list[int]) -> list[list[int]]:
+    history: list[list[int]] = [[]]
+    for item in my_list:
+        history[0].append(item)
     while(not is_sorted(my_list)):
         shuffle(my_list)
-        counter += 1
-    return counter
+        history.append([])
+        for item in my_list:
+            history[-1].append(item)
+    return history
