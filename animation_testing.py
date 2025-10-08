@@ -11,6 +11,7 @@ def clear_order_array():
 
 def is_sorted(my_list: list[int]) -> bool:
     for i in range(1, len(my_list)):
+        pygame.event.pump()
         clear_sorting_array()
         arr_comparing[i] = True
         arr_comparing[i - 1] = True
@@ -27,6 +28,7 @@ def is_sorted(my_list: list[int]) -> bool:
 def shuffle(my_list: list[int]):
     length: int = len(my_list)
     for i in range(0, length):
+        pygame.event.pump()
         random_int: int = random.randint(0, length-1)
         temp_val: int = my_list[i]
         my_list[i] = my_list[random_int]
@@ -63,7 +65,7 @@ BUFFER_WIDTH = (WIDTH - SORTING_WIDTH) / 2
 SORTING_HEIGHT = round(HEIGHT * 0.8)
 BUFFER_HEIGHT = (HEIGHT - SORTING_HEIGHT) / 2
 
-TIME_BUFFER = 50
+TIME_BUFFER = 20
 
 arr = [4, 3, 2, 1, 5, 6]
 arr_comparing = [False, False, False, False, False, False]
