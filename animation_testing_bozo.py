@@ -27,9 +27,9 @@ def is_sorted(my_list: list[int]) -> bool:
 
 def shuffle(my_list: list[int]):
     length: int = len(my_list)
-    for i in range(0, length):
+    for i in range(0, length - 1):
         pygame.event.pump()
-        random_int: int = random.randint(0, length-1)
+        random_int: int = random.randint(i, length-1)
         temp_val: int = my_list[i]
         my_list[i] = my_list[random_int]
         my_list[random_int] = temp_val
@@ -40,17 +40,35 @@ def shuffle(my_list: list[int]):
         pygame.display.flip()
         pygame.time.delay(TIME_BUFFER)
 
+def random_swap(my_list: list[int]):
+    length: int = len(my_list)
+    random_index1: int = random.randint(0, length - 1)
+    random_index2: int = random.randint(0, length - 1)
+    while (random_index1 == random_index2):
+        random_index2 = random.randint(0, length - 1)
+    temp_val: int = my_list[random_index1]
+    my_list[random_index1] = my_list[random_index2]
+    my_list[random_index2] = temp_val
+    pygame.event.pump()
+    clear_sorting_array()
+    arr_comparing[random_index1] = True
+    arr_comparing[random_index2] = True
+    render_bars()
+    pygame.display.flip()
+    pygame.time.delay(TIME_BUFFER)
+
+
 def bogosort(my_list: list[int]) -> int:
     counter: int = 0
     while(not is_sorted(my_list)):
-        shuffle(my_list)
+        random_swap(my_list)
         counter += 1
     return counter
 
 def render_bars():
     screen.fill("black")
     for i in range(len(arr)):
-        temp_rect = pygame.Rect(BUFFER_WIDTH + RECTANGLE_WIDTH * i, BUFFER_HEIGHT + RECTANGLE_UNIT_HEIGHT * (len(arr) - arr[i]), RECTANGLE_WIDTH - 1, RECTANGLE_UNIT_HEIGHT * arr[i])
+        temp_rect = pygame.Rect(BUFFER_WIDTH + RECTANGLE_WIDTH * i, round(BUFFER_HEIGHT + RECTANGLE_UNIT_HEIGHT * (len(arr) - arr[i])), RECTANGLE_WIDTH - 1, round(RECTANGLE_UNIT_HEIGHT * arr[i]))
         if (arr_comparing[i]):
             pygame.draw.rect(screen, "Red", temp_rect)
         elif (arr_in_order[i]):
@@ -65,11 +83,16 @@ BUFFER_WIDTH = (WIDTH - SORTING_WIDTH) / 2
 SORTING_HEIGHT = round(HEIGHT * 0.8)
 BUFFER_HEIGHT = (HEIGHT - SORTING_HEIGHT) / 2
 
-TIME_BUFFER = 20
+TIME_BUFFER = 10
+LIST_LENGTH = 6
 
-arr = [4, 3, 2, 1, 5, 6]
-arr_comparing = [False, False, False, False, False, False]
-arr_in_order = [False, False, False, False, False, False]
+arr = []
+arr_comparing = []
+arr_in_order = []
+for j in range(LIST_LENGTH):
+    arr.append(LIST_LENGTH - j)
+    arr_comparing.append(False)
+    arr_in_order.append(False)
 RECTANGLE_WIDTH = SORTING_WIDTH / len(arr)
 RECTANGLE_UNIT_HEIGHT = SORTING_HEIGHT / len(arr)
 
