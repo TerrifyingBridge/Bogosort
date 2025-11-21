@@ -3,7 +3,7 @@ import random
 import statistics
 import matplotlib.pyplot as plt
 
-plotting: bool = True
+plotting: bool = False
 sim_length: int = 1000
 max_list_length: int = 7
 bogo_data: list[list[int]] = []

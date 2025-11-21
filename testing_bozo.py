@@ -3,8 +3,8 @@ import random
 import matplotlib.pyplot as plt
 
 plotting: bool = True
-sim_length: int = 10
-max_list_length: int = 10
+sim_length: int = 100
+max_list_length: int = 8
 bozo_data: list[list[int]] = []
 
 def is_sorted(my_list: list[int]) -> bool:
@@ -35,8 +35,7 @@ def bozosort(my_list: list[int]) -> int:
     counter: int = 0
     while(not is_sorted(my_list)):
         random_swap(my_list)
-        #print(my_list)
-        counter += 2
+        counter += 1
     return counter
 
 def create_rng_array(list_length: int) -> list[int]:
@@ -48,6 +47,7 @@ def create_rng_array(list_length: int) -> list[int]:
     return temp_arr
 
 if (plotting):
+
     pos = []
     expected_time = []
     for i in range(max_list_length):
@@ -67,6 +67,10 @@ if (plotting):
     ax.plot(pos, expected_time)
     ax.set_yscale("log")
     plt.show()
+
 else:
-    temp_arr = create_rng_array(4)
-    bozosort(temp_arr)
+    length_data = []
+    for i in range(sim_length):
+        unsorted_array = create_rng_array(max_list_length)
+        length_data.append(bozosort(unsorted_array))
+    print(sum(length_data) / len(length_data))
